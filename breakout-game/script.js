@@ -120,9 +120,20 @@ function moveBall(){
         ball.dy = -4;
     }
 
-    if(ball.x + (ball.size / 2) >= paddle.x && ball.x + (ball.size / 2) <= paddle.x + paddle.width && paddle.y == ball.y + ball.size){
+    if(ball.x + (ball.size / 2) >= paddle.x && ball.x + (ball.size / 2) <= paddle.x + paddle.width && paddle.y < ball.y + ball.size){
         ball.dy *= -1;
     }
+
+    bricks.forEach(column => column.forEach(brick => {
+        if(brick.visible && ball.x + ball.size / 2 > brick.x && ball.x + ball.size / 2 < brick.x + brick.width){
+            if(ball.y < brick.y + brick.height || (ball.y < brick.y && ball.y + ball.size > brick.y))
+            {
+                brick.visible = false;
+                ball.dy *= -1;
+            }
+            
+        }
+    }));
 }
 
 function keyDown(e){
